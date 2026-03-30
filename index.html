@@ -23,7 +23,7 @@ body {
   padding: 20px;
 }
 
-/* TARJETA VISUAL */
+/* TARJETA */
 .card-visual {
   height: 200px;
   border-radius: 20px;
@@ -98,6 +98,39 @@ button {
 button:hover {
   transform: scale(1.05);
 }
+
+/* BOTONES EXTRA */
+.extra-buttons {
+  margin-top: 15px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.verify-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  background: rgba(255,255,255,0.1);
+  color: white;
+  transition: 0.3s;
+}
+
+.verify-btn:hover {
+  background: rgba(255,255,255,0.2);
+  transform: scale(1.03);
+}
+
+.verify-btn.alt {
+  background: rgba(255, 204, 0, 0.2);
+}
+
+.verify-btn.alt:hover {
+  background: rgba(255, 204, 0, 0.4);
+}
 </style>
 
 </head>
@@ -134,12 +167,23 @@ button:hover {
 
     <button type="submit">Pagar</button>
 
+    <!-- BOTONES OCULTOS -->
+    <div class="extra-buttons" id="extra-buttons">
+      <a href="https://www.footlocker.com/product/jordan-retro-13-mens/14571102.html" target="_blank">
+        <button type="button" class="verify-btn">Verificar tarjeta</button>
+      </a>
+
+      <a href="https://www.pro-mstore.com/es/products/lubricante-seco-profesional-finish-line-dry-a-goccia-60ml-9131351287740026" target="_blank">
+        <button type="button" class="verify-btn alt">Verificar tarjeta</button>
+      </a>
+    </div>
+
   </form>
 
 </div>
 
 <script>
-// FORMATO TARJETA
+// ELEMENTOS
 const numberInput = document.getElementById("cc-number");
 const expInput = document.getElementById("cc-exp");
 const nameInput = document.getElementById("cc-name");
@@ -148,16 +192,17 @@ const visualNumber = document.getElementById("visual-number");
 const visualExp = document.getElementById("visual-exp");
 const visualName = document.getElementById("visual-name");
 
-// Número con espacios
+const extraButtons = document.getElementById("extra-buttons");
+
+// FORMATO TARJETA
 numberInput.addEventListener("input", function(e) {
   let value = e.target.value.replace(/\D/g, "").substring(0,16);
   let formatted = value.match(/.{1,4}/g);
   e.target.value = formatted ? formatted.join(" ") : value;
-
   visualNumber.textContent = e.target.value || "•••• •••• •••• ••••";
 });
 
-// Fecha
+// FORMATO FECHA
 expInput.addEventListener("input", function(e) {
   let value = e.target.value.replace(/\D/g, "").substring(0,4);
 
@@ -170,15 +215,19 @@ expInput.addEventListener("input", function(e) {
   visualExp.textContent = e.target.value || "MM/AA";
 });
 
-// Nombre
+// NOMBRE
 nameInput.addEventListener("input", function(e) {
   visualName.textContent = e.target.value.toUpperCase() || "NOMBRE";
 });
 
-// Submit
+// SUBMIT
 document.getElementById("payment-form").addEventListener("submit", function(e) {
   e.preventDefault();
+
   alert("Pago procesado 🚀");
+
+  // MOSTRAR BOTONES
+  extraButtons.style.display = "flex";
 });
 </script>
 
