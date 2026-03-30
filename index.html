@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pago</title>
+
+<style>
+body {
+  margin: 0;
+  background: #0b0b0b;
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+.container {
+  max-width: 400px;
+  margin: auto;
+  padding: 20px;
+}
+
+.title {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.card {
+  border: 2px solid gold;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+input {
+  width: 100%;
+  padding: 14px;
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 1px solid gold;
+  background: #111;
+  color: white;
+  font-size: 16px;
+}
+
+.total {
+  margin: 20px 0;
+  font-size: 18px;
+}
+
+button {
+  width: 100%;
+  padding: 15px;
+  background: gold;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="title">Verificar el pago</div>
+
+  <!-- FORMULARIO -->
+  <form id="payment-form" autocomplete="on">
+
+    <div class="card">
+      <input type="text" name="cc-number" placeholder="Número de tarjeta"
+        autocomplete="cc-number" required>
+
+      <input type="text" name="cc-exp" placeholder="MM/AA"
+        autocomplete="cc-exp" required>
+
+      <input type="text" name="cc-name" placeholder="Nombre en la tarjeta"
+        autocomplete="cc-name" required>
+    </div>
+
+    <div class="total">
+      Total a pagar: <b>$150,000 COP</b>
+    </div>
+
+    <button type="submit">Pagar $150,000 COP</button>
+
+  </form>
+
+</div>
+
+<script>
+document.getElementById("payment-form").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  alert("Pago procesado correctamente");
+});
+</script>
+
+</body>
+</html>
