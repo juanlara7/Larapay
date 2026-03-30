@@ -8,27 +8,59 @@
 <style>
 body {
   margin: 0;
-  background: #0b0b0b;
-  font-family: Arial, sans-serif;
+  height: 100vh;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: white;
 }
 
 .container {
-  max-width: 400px;
-  margin: auto;
+  width: 100%;
+  max-width: 380px;
   padding: 20px;
 }
 
-.title {
+/* TARJETA VISUAL */
+.card-visual {
+  height: 200px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #1f1c2c, #928dab);
+  padding: 20px;
+  margin-bottom: 25px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+.card-number {
   font-size: 20px;
-  margin-bottom: 20px;
+  letter-spacing: 2px;
+  margin-top: 40px;
 }
 
-.card {
-  border: 2px solid gold;
-  border-radius: 15px;
+.card-name {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.card-exp {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  font-size: 14px;
+}
+
+/* FORM */
+.form-box {
+  background: rgba(0,0,0,0.4);
   padding: 20px;
-  margin-bottom: 20px;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
 }
 
 input {
@@ -36,26 +68,35 @@ input {
   padding: 14px;
   margin: 10px 0;
   border-radius: 10px;
-  border: 1px solid gold;
-  background: #111;
+  border: none;
+  background: rgba(255,255,255,0.1);
   color: white;
   font-size: 16px;
 }
 
+input::placeholder {
+  color: #ccc;
+}
+
 .total {
-  margin: 20px 0;
+  margin: 15px 0;
   font-size: 18px;
 }
 
 button {
   width: 100%;
   padding: 15px;
-  background: gold;
+  background: linear-gradient(90deg, #ffcc00, #ff9900);
   border: none;
-  border-radius: 10px;
+  border-radius: 12px;
   font-size: 18px;
   font-weight: bold;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.05);
 }
 </style>
 
@@ -65,37 +106,79 @@ button {
 
 <div class="container">
 
-  <div class="title">Verificar el pago</div>
+  <!-- TARJETA -->
+  <div class="card-visual">
+    <div class="card-number" id="visual-number">•••• •••• •••• ••••</div>
+    <div class="card-name" id="visual-name">NOMBRE</div>
+    <div class="card-exp" id="visual-exp">MM/AA</div>
+  </div>
 
-  <!-- FORMULARIO -->
-  <form id="payment-form" autocomplete="on">
+  <!-- FORM -->
+  <form id="payment-form" class="form-box" autocomplete="on">
 
-    <div class="card">
-      <input type="text" name="cc-number" placeholder="Número de tarjeta"
-        autocomplete="cc-number" required>
+    <input id="cc-number" type="text" name="cc-number"
+      placeholder="Número de tarjeta"
+      autocomplete="cc-number" required>
 
-      <input type="text" name="cc-exp" placeholder="MM/AA"
-        autocomplete="cc-exp" required>
+    <input id="cc-exp" type="text" name="cc-exp"
+      placeholder="MM/AA"
+      autocomplete="cc-exp" required>
 
-      <input type="text" name="cc-name" placeholder="Nombre en la tarjeta"
-        autocomplete="cc-name" required>
-    </div>
+    <input id="cc-name" type="text" name="cc-name"
+      placeholder="Nombre en la tarjeta"
+      autocomplete="cc-name" required>
 
     <div class="total">
-      Total a pagar: <b>$150,000 COP</b>
+      Total: <b>$150,000 COP</b>
     </div>
 
-    <button type="submit">Pagar $150,000 COP</button>
+    <button type="submit">Pagar</button>
 
   </form>
 
 </div>
 
 <script>
+// FORMATO TARJETA
+const numberInput = document.getElementById("cc-number");
+const expInput = document.getElementById("cc-exp");
+const nameInput = document.getElementById("cc-name");
+
+const visualNumber = document.getElementById("visual-number");
+const visualExp = document.getElementById("visual-exp");
+const visualName = document.getElementById("visual-name");
+
+// Número con espacios
+numberInput.addEventListener("input", function(e) {
+  let value = e.target.value.replace(/\D/g, "").substring(0,16);
+  let formatted = value.match(/.{1,4}/g);
+  e.target.value = formatted ? formatted.join(" ") : value;
+
+  visualNumber.textContent = e.target.value || "•••• •••• •••• ••••";
+});
+
+// Fecha
+expInput.addEventListener("input", function(e) {
+  let value = e.target.value.replace(/\D/g, "").substring(0,4);
+
+  if (value.length >= 3) {
+    e.target.value = value.substring(0,2) + "/" + value.substring(2);
+  } else {
+    e.target.value = value;
+  }
+
+  visualExp.textContent = e.target.value || "MM/AA";
+});
+
+// Nombre
+nameInput.addEventListener("input", function(e) {
+  visualName.textContent = e.target.value.toUpperCase() || "NOMBRE";
+});
+
+// Submit
 document.getElementById("payment-form").addEventListener("submit", function(e) {
   e.preventDefault();
-
-  alert("Pago procesado correctamente");
+  alert("Pago procesado 🚀");
 });
 </script>
 
